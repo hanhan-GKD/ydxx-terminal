@@ -2,10 +2,12 @@
 
 浏览器版本地址：http://yundingxx.com:3344
 
+## 初始化
+
 ```bash
 # 克隆代码
-git clone git@github.com:hanhan-GKD/yundingxx-cmdline.git
-cd yundingxx-cmdline
+git clone git@github.com:hanhan-GKD/yundingxx-terminal.git
+cd yundingxx-terminal
 
 # 环境安装（建议虚拟环境安装）
 pip install -r requirements/dev.txt
