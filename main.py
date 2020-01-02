@@ -25,15 +25,15 @@ class UserInfoPanel(urwid.LineBox):
                  ('iq_num', '智力值: '),
                  ('magic_damage', '魔法伤害: '),
                  ('endurance_num', '耐力值: '),
-                 ('endurance_num', '耐力值: '),
                  ('physical_defense', '物理防御: '),
                  ('agile_num', '敏捷值: '),
                  ('magic_defense', '魔法防御: '),
                  ('faith_num', '信仰值: '),
-                 ('restore_damage', '治疗伤害: '),
+                 ('restore_damage', '治疗能力: '),
                  ('speed', '速度: '),
                  ('pet_max_count', '宠物上限: '),
-                 ('health_num', '精力: '),
+                 ('energy_num', '精力值: '),
+                 ('health_num', '体力值: '),
                  ('potential_num', '潜力点: ')]
 
     def __init__(self):
