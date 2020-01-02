@@ -1,12 +1,11 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
-import json
-
 import urwid
-
-from tornado import httpclient
 from tornado.ioloop import IOLoop
+from src.ydxx_panel.login_panel import LoginPanel
+from src.globals.global_values import global_values
 
+<<<<<<< HEAD
 from src import button
 from src import menu_widget
 from src.api import api
@@ -123,6 +122,8 @@ class LoginPanel(urwid.WidgetPlaceholder):
             valign='top', height=('relative', 100),
             min_width=24, min_height=8,
             left=10, right=10)
+=======
+>>>>>>> a0ba553420d467c0c774f83e09d2b795af13bd06
 
 
 if __name__ == '__main__':

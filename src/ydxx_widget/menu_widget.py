@@ -36,9 +36,21 @@ class MenuWidget(urwid.Columns):
             self.body_list.append(body)
         self.menu = MenuListBox(urwid.SimpleFocusListWalker(self.menu_items))
         urwid.connect_signal(self.menu, 'change_focus', lambda x, position: self.switch_menu_item(position))
-        super(MenuWidget, self).__init__([(18, urwid.BoxAdapter(self.menu, 6)), self.body_list[0]])
+        super(MenuWidget, self).__init__([(16, self.menu), self.body_list[0]], box_columns=[0])
 
     def switch_menu_item(self, position):
         if position != self.position and position in range(0, len(self.body_list)):
             self.position = position
             self.widget_list[1] = self.body_list[position]
+
+    def keypress(self, size, key):
+        if key == 'esc':
+            self.set_focus(0)
+        elif self._command_map[key] not in ('cursor left', 'cursor right'):
+            return super(MenuWidget, self).keypress(size, key)
+
+
+
+class MenuWidgetItem(urwid.WidgetWrap):
+    def __init__(self, widget):
+        super(MenuWidgetItem, self).__init__(urwid.BoxAdapter(widget, 23))
