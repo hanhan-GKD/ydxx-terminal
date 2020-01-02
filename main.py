@@ -1,12 +1,16 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
+import json
+
 import urwid
-from tornado.ioloop import IOLoop
+
 from tornado import httpclient
+from tornado.ioloop import IOLoop
+
+from src import button
+from src import menu_widget
 from src.api import api
 from src.global_values import global_values
-import json
-from src import button, menu_widget
 
 
 class UserInfoPanel(urwid.LineBox):
@@ -51,8 +55,9 @@ class UserInfoPanel(urwid.LineBox):
                         if index + 1 < len(show_attr):
                             first_attr = show_attr[index]
                             second_attr = show_attr[index + 1]
-                            ready_extend_list.append(urwid.Columns([urwid.Text([first_attr[1], str(user[first_attr[0]])]),
-                                                                    urwid.Text([second_attr[1], str(user[second_attr[0]])])]))
+                            ready_extend_list.append(
+                                urwid.Columns([urwid.Text([first_attr[1], str(user[first_attr[0]])]),
+                                               urwid.Text([second_attr[1], str(user[second_attr[0]])])]))
                         else:
                             attr = show_attr[index]
                             ready_extend_list.append(
@@ -62,22 +67,26 @@ class UserInfoPanel(urwid.LineBox):
 
             else:
                 pass
+
         request = httpclient.HTTPRequest(api.user_init_info, 'GET', headers={
             'Cookie': global_values.token})
         httpclient.AsyncHTTPClient().fetch(request, resp_user_info)
 
 
 class MainPanel(urwid.Frame):
+
     def __init__(self):
         body = menu_widget.MenuWidget([('角色信息', UserInfoPanel()), ('背包', urwid.Text('背包: 空'))])
-            
+
         footer = urwid.Text('--状态栏--')
         super(MainPanel, self).__init__(urwid.ListBox(urwid.SimpleFocusListWalker(
             [body])), footer=urwid.AttrMap(footer, 'status_bar'))
 
 
 class LoginPanel(urwid.WidgetPlaceholder):
+
     def __init__(self):
+
         def on_login_result(response: httpclient.HTTPResponse):
             if response.code == 200:
                 json_rst = json.loads(response.body)
@@ -94,6 +103,7 @@ class LoginPanel(urwid.WidgetPlaceholder):
             request = httpclient.HTTPRequest(
                 api.login, 'POST', body='user_name={}&user_pwd={}'.format(uname, pwd))
             httpclient.AsyncHTTPClient().fetch(request, on_login_result)
+
         super(LoginPanel, self).__init__(urwid.SolidFill(' '))
         logo = urwid.Text('')
         with open('./logo.txt') as logo_file:

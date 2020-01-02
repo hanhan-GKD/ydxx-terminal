@@ -3,6 +3,8 @@ repos:
     rev: v2.2.3
     hooks:
     -   id: flake8
+        args:
+            - --ignore=E501
     -   id: check-docstring-first
 -   repo: https://github.com/asottile/reorder_python_imports
     rev: v1.6.0
