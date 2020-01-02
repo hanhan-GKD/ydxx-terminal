@@ -43,6 +43,14 @@ class MenuWidget(urwid.Columns):
             self.position = position
             self.widget_list[1] = self.body_list[position]
 
+    def keypress(self, size, key):
+        if key == 'esc':
+            self.set_focus(0)
+        elif self._command_map[key] not in ('cursor left', 'cursor right'):
+            return super(MenuWidget, self).keypress(size, key)
+
+
+
 class MenuWidgetItem(urwid.WidgetWrap):
     def __init__(self, widget):
         super(MenuWidgetItem, self).__init__(urwid.BoxAdapter(widget, 23))
