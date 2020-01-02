@@ -5,6 +5,8 @@ from tornado import httpclient
 from api import api
 from global_values import global_values
 import json
+import button
+import menu_widget
 
 
 class UserInfoPanel(urwid.LineBox):
@@ -13,11 +15,27 @@ class UserInfoPanel(urwid.LineBox):
                  ('repair_num', '修为: '),
                  ('race_type', '种族: '),
                  ('ph_num', '气血值: '),
-                 ('vitality_num', '活力: ')]
+                 ('vitality_num', '活力: '),
+                 ('force_num', '武力值: '),
+                 ('physical_damage', '物理伤害: '),
+                 ('iq_num', '智力值: '),
+                 ('magic_damage', '魔法伤害: '),
+                 ('endurance_num', '耐力值: '),
+                 ('endurance_num', '耐力值: '),
+                 ('physical_defense', '物理防御: '),
+                 ('agile_num', '敏捷值: '),
+                 ('magic_defense', '魔法防御: '),
+                 ('faith_num', '信仰值: '),
+                 ('restore_damage', '治疗伤害: '),
+                 ('speed', '速度: '),
+                 ('pet_max_count', '宠物上限: '),
+                 ('health_num', '精力: '),
+                 ('potential_num', '潜力点: ')]
 
     def __init__(self):
         self.attr_list = urwid.ListBox(urwid.SimpleFocusListWalker([]))
-        super(UserInfoPanel, self).__init__(urwid.BoxAdapter(self.attr_list, 20), '用户信息')
+        super(UserInfoPanel, self).__init__(
+            urwid.BoxAdapter(self.attr_list, 20), '用户信息')
         self.fetch_user_info()
 
     def fetch_user_info(self):
@@ -44,59 +62,61 @@ class UserInfoPanel(urwid.LineBox):
 
             else:
                 pass
-        request=httpclient.HTTPRequest(api.user_init_info, 'GET', headers={
-                                       'Cookie': global_values.token})
+        request = httpclient.HTTPRequest(api.user_init_info, 'GET', headers={
+            'Cookie': global_values.token})
         httpclient.AsyncHTTPClient().fetch(request, resp_user_info)
+
 
 class MainPanel(urwid.Frame):
     def __init__(self):
-        body=urwid.Columns(
-            [UserInfoPanel(), urwid.Text('功能面板'), urwid.Text('日志')])
-        footer=urwid.Text('--状态栏--')
+        body = menu_widget.MenuWidget([('角色信息', UserInfoPanel()), ('背包', urwid.Text('背包: 空'))])
+            
+        footer = urwid.Text('--状态栏--')
         super(MainPanel, self).__init__(urwid.ListBox(urwid.SimpleFocusListWalker(
             [body])), footer=urwid.AttrMap(footer, 'status_bar'))
+
 
 class LoginPanel(urwid.WidgetPlaceholder):
     def __init__(self):
         def on_login_result(response: httpclient.HTTPResponse):
             if response.code == 200:
-                json_rst=json.loads(response.body)
+                json_rst = json.loads(response.body)
                 if 'code' in json_rst and json_rst['code'] == 200:
-                    global_values.token=response.headers['Set-Cookie'].split(';')[0]
-                    self.original_widget=MainPanel()
+                    global_values.token = response.headers['Set-Cookie'].split(';')[
+                        0]
+                    self.original_widget = MainPanel()
                 else:
-                    self.login_result_info.set_text('登录失败')
+                    self.login_result_info.set_text(('error_info', '登录失败'))
+
         def login(button):
-            uname=self.uname_edit.get_edit_text()
-            pwd=self.pwd_edit.get_edit_text()
-            request=httpclient.HTTPRequest(
+            uname = self.uname_edit.get_edit_text()
+            pwd = self.pwd_edit.get_edit_text()
+            request = httpclient.HTTPRequest(
                 api.login, 'POST', body='user_name={}&user_pwd={}'.format(uname, pwd))
             httpclient.AsyncHTTPClient().fetch(request, on_login_result)
         super(LoginPanel, self).__init__(urwid.SolidFill(' '))
-        logo=urwid.Text('')
+        logo = urwid.Text('')
         with open('./logo.txt') as logo_file:
             logo.set_text(logo_file.read())
-        self.uname_edit=urwid.Edit('账号: ')
-        self.pwd_edit=urwid.Edit('密码: ', mask='*')
-        login_btn=urwid.Button('登陆', on_press=login)
-        login_btn_wp=urwid.Padding(
-            login_btn, align=urwid.CENTER, width=('relative', 18))
-        self.login_result_info=urwid.Text('', align=urwid.CENTER)
-        form=urwid.LineBox(urwid.Pile([self.uname_edit, self.pwd_edit, urwid.AttrMap(
-            self.login_result_info, 'error_info'), login_btn_wp]))
-        self.original_widget=urwid.Overlay(
+        self.uname_edit = urwid.Edit('账号: ')
+        self.pwd_edit = urwid.Edit('密码: ', mask='*')
+        login_btn = button.Button('[登陆]', on_press=login)
+        login_btn_wp = urwid.Padding(
+            login_btn, align=urwid.CENTER, width='pack')
+        self.login_result_info = urwid.Text('', align=urwid.CENTER)
+        form = urwid.LineBox(urwid.Pile(
+            [self.uname_edit, self.pwd_edit, self.login_result_info, login_btn_wp], focus_item=0))
+        self.original_widget = urwid.Overlay(
             urwid.ListBox(urwid.SimpleFocusListWalker([logo, form])),
             self.original_widget,
             align='center', width=45,
-            valign='middle', height=('relative', 80),
+            valign='top', height=('relative', 100),
             min_width=24, min_height=8,
-            left=10, right=10,
-            top=5,
-            bottom=5)
+            left=10, right=10)
 
 
 if __name__ == '__main__':
-    main_panel=LoginPanel()
-    loop=urwid.TornadoEventLoop(IOLoop())
+    main_panel = LoginPanel()
+    loop = urwid.TornadoEventLoop(IOLoop())
     urwid.MainLoop(main_panel, palette=global_values.palette,
                    event_loop=loop).run()
