@@ -1,6 +1,8 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
 import urwid
 from typing import Callable
-from global_values import global_values
+
 
 class Button(urwid.WidgetWrap):
     signals = ['click']

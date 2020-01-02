@@ -1,3 +1,5 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
 class GlobalContainer():
     def __init__(self):
         self._values = {}

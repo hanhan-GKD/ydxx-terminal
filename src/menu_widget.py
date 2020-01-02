@@ -1,5 +1,7 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
 import urwid
-from global_values import global_values
+
 
 class MenuListBox(urwid.ListBox):
     signals = ['change_focus']

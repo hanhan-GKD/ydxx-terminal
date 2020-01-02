@@ -1,12 +1,12 @@
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
 import urwid
-import tornado
 from tornado.ioloop import IOLoop
 from tornado import httpclient
-from api import api
-from global_values import global_values
+from src.api import api
+from src.global_values import global_values
 import json
-import button
-import menu_widget
+from src import button, menu_widget
 
 
 class UserInfoPanel(urwid.LineBox):

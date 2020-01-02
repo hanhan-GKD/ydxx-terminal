@@ -1,5 +1,7 @@
-from globals import GlobalContainer
-from global_config import global_config
+#!/usr/bin/env python3.6
+# -*- coding: utf-8 -*-
+from src.globals import GlobalContainer
+from src.global_config import global_config
 
 def gen_api(uri: str) -> str:    
         return '{}{}'.format(global_config.hostname, uri)
