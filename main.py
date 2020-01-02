@@ -3,7 +3,7 @@
 import urwid
 from tornado.ioloop import IOLoop
 from src.ydxx_panel.login_panel import LoginPanel
-from src.global_values import global_values
+from src.globals.global_values import global_values
 
 
 

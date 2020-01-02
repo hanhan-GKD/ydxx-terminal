@@ -2,8 +2,8 @@ import urwid
 from tornado import httpclient
 from src.ydxx_widget import menu_widget 
 import json
-from src.global_values import global_values
-from src.api import api
+from src.globals.global_values import global_values
+from src.globals.api import api
 class UserInfoPanel(menu_widget.MenuWidgetItem):
     show_attr = [('nickname', '昵称: '),
                  ('level_text', '境界: '),

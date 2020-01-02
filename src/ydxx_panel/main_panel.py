@@ -1,6 +1,6 @@
 import urwid
-from src.api import api
-from src.global_values import global_values
+from src.globals.api import api
+from src.globals.global_values import global_values
 from src.ydxx_widget import button
 from src.ydxx_widget import menu_widget
 from src.ydxx_panel.userinfo_panel import UserInfoPanel

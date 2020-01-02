@@ -1,9 +1,9 @@
 import urwid
 from tornado import httpclient
-from src.global_values import global_values
+from src.globals.global_values import global_values
 from src.ydxx_panel.main_panel import MainPanel
 import json
-from src.api import api
+from src.globals.api import api
 from src.ydxx_widget import button
 
 class LoginPanel(urwid.WidgetPlaceholder):
