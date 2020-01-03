@@ -46,11 +46,16 @@ class MenuWidget(urwid.Columns):
     def keypress(self, size, key):
         if key == 'esc':
             self.set_focus(0)
+        elif self.focus_position == 0 and key == 'enter':
+            self.set_focus(1)
         elif self._command_map[key] not in ('cursor left', 'cursor right'):
             return super(MenuWidget, self).keypress(size, key)
 
 
 
 class MenuWidgetItem(urwid.WidgetWrap):
-    def __init__(self, widget):
-        super(MenuWidgetItem, self).__init__(urwid.BoxAdapter(widget, 23))
+    def __init__(self, widget: urwid.Widget):
+        if urwid.FLOW in widget.sizing():
+            super(MenuWidgetItem, self).__init__(widget)
+        elif urwid.BOX in widget.sizing():
+            super(MenuWidgetItem, self).__init__(urwid.BoxAdapter(widget, 23))

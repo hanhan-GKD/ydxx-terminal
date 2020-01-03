@@ -7,7 +7,7 @@
 
 ```bash
 # 克隆代码
-git clone git@github.com:hanhan-GKD/yundingxx-terminal.git
+git clone git@github.com:hanhan-GKD/ydxx-terminal.git
 cd yundingxx-terminal
 
 # 环境安装（建议虚拟环境安装）

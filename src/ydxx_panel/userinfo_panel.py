@@ -1,9 +1,12 @@
 import urwid
-from tornado import httpclient
-from src.ydxx_widget import menu_widget 
+from src.ydxx_widget import menu_widget
 import json
 from src.globals.global_values import global_values
 from src.globals.api import api
+import asyncio
+import aiohttp
+
+
 class UserInfoPanel(menu_widget.MenuWidgetItem):
     show_attr = [('nickname', '昵称: '),
                  ('level_text', '境界: '),
@@ -28,37 +31,28 @@ class UserInfoPanel(menu_widget.MenuWidgetItem):
                  ('potential_num', '潜力点: ')]
 
     def __init__(self):
-        self.attr_list = urwid.ListBox(urwid.SimpleFocusListWalker([])) 
+        self.attr_list = urwid.ListBox(urwid.SimpleFocusListWalker([]))
         super(UserInfoPanel, self).__init__(self.attr_list)
-        self.fetch_user_info()
+        asyncio.get_event_loop().create_task(self.fetch_user_info())
 
-    def fetch_user_info(self):
-        def resp_user_info(response: httpclient.HTTPResponse):
-            if response.code == 200:
-                json_data = json.loads(response.body)
-                if json_data['code'] == 200:
-                    ready_extend_list = []
-                    user = json_data['data']['user']
-                    index = 0
-                    show_attr = UserInfoPanel.show_attr
-                    while index < len(show_attr):
-                        if index + 1 < len(show_attr):
-                            first_attr = show_attr[index]
-                            second_attr = show_attr[index + 1]
-                            ready_extend_list.append(
-                                urwid.Columns([urwid.Text([first_attr[1], str(user[first_attr[0]])]),
-                                               urwid.Text([second_attr[1], str(user[second_attr[0]])])]))
-                        else:
-                            attr = show_attr[index]
-                            ready_extend_list.append(
-                                urwid.Text([attr[1], str(user[attr[0]])]))
-                        index += 2
-                    self.attr_list.body.extend(ready_extend_list)
-
-            else:
-                pass
-
-        request = httpclient.HTTPRequest(api.user_init_info, 'GET', headers={
-            'Cookie': global_values.token})
-        httpclient.AsyncHTTPClient().fetch(request, resp_user_info)
-
+    async def fetch_user_info(self):
+        async with global_values.session.get(api.user_init_info) as response:
+            json_data = await response.json()
+            if 'code' in json_data and json_data['code'] == 200:
+                ready_extend_list = []
+                user = json_data['data']['user']
+                index = 0
+                show_attr = UserInfoPanel.show_attr
+                while index < len(show_attr):
+                    if index + 1 < len(show_attr):
+                        first_attr = show_attr[index]
+                        second_attr = show_attr[index + 1]
+                        ready_extend_list.append(
+                            urwid.Columns([urwid.Text([first_attr[1], str(user[first_attr[0]])]),
+                                           urwid.Text([second_attr[1], str(user[second_attr[0]])])]))
+                    else:
+                        attr = show_attr[index]
+                        ready_extend_list.append(
+                            urwid.Text([attr[1], str(user[attr[0]])]))
+                    index += 2
+                self.attr_list.body.extend(ready_extend_list)
