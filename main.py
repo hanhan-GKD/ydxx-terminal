@@ -6,7 +6,6 @@ from src.ydxx_panel.login_panel import LoginPanel
 from src.globals.global_values import global_values
 
 
-
 if __name__ == '__main__':
     main_panel = LoginPanel()
     urwid.MainLoop(main_panel, palette=global_values.palette,

@@ -15,8 +15,8 @@ class LoginPanel(urwid.WidgetPlaceholder):
             asyncio.get_event_loop().create_task(self.login(uname, pwd))
         super(LoginPanel, self).__init__(urwid.SolidFill(' '))
         logo = urwid.Text('')
-        with open('./logo.txt') as logo_file:
-            logo.set_text(logo_file.read())
+#        with open('./logo.txt') as logo_file:
+#            logo.set_text(logo_file.read())
         self.uname_edit = urwid.Edit('账号: ')
         self.pwd_edit = urwid.Edit('密码: ', mask='*')
         login_btn = button.Button('[登陆]', on_press=on_login)

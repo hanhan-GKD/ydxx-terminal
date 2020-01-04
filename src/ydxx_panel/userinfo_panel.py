@@ -1,5 +1,5 @@
 import urwid
-from src.ydxx_widget import menu_widget
+from src.ydxx_widget import menu
 import json
 from src.globals.global_values import global_values
 from src.globals.api import api
@@ -7,7 +7,7 @@ import asyncio
 import aiohttp
 
 
-class UserInfoPanel(menu_widget.MenuWidgetItem):
+class UserInfoPanel(menu.MenuWidgetItem):
     show_attr = [('nickname', '昵称: '),
                  ('level_text', '境界: '),
                  ('repair_num', '修为: '),
