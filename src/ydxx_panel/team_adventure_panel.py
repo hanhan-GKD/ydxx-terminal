@@ -16,7 +16,7 @@ class ChannelListPanel(StackFrame):
                                         Button('黑色玫瑰', highlight='active_channel_item')]
         for index, button in enumerate(channel_list):
             urwid.connect_signal(button, 'click', 
-                                 lambda x: self.on_chose(index))
+                                 lambda x, index=index: self.on_chose(index))
         super(ChannelListPanel, self).__init__(urwid.Pile(channel_list))
 
     def on_chose(self, index):
