@@ -472,3 +472,7 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/python,virtualenv,macos,linux,windows,visualstudiocode,vim,emacs,sublimetext,jetbrains,ansible,node
 !www/template/include
+
+# 本地配置 #
+
+src/globals/local.json
