@@ -14,4 +14,3 @@ class MainPanel(urwid.Frame):
         footer = urwid.Text('--状态栏--')
         super(MainPanel, self).__init__(urwid.ListBox(urwid.SimpleFocusListWalker(
             [body])), footer=urwid.AttrMap(footer, 'status_bar'))
-

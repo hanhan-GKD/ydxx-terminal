@@ -26,3 +26,4 @@ class Button(urwid.WidgetWrap):
             return False
         self._emit('click')
         return True
+    

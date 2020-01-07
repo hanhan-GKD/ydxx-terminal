@@ -12,3 +12,4 @@ api = GlobalContainer()
 
 api.login = gen_api('/api/login')
 api.user_init_info = gen_api('/api/getUserInitInfo')
+api.scene_list = gen_api('/api/getCombatBeMonster')

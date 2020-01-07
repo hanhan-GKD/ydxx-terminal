@@ -72,6 +72,7 @@ class LoginPanel(urwid.WidgetPlaceholder):
                 global_values.token = user_data['token']
                 global_values.uid = user_data['_id']
                 global_values.session = session
-                self.original_widget = MainPanel()
+                global_values.top.original_widget = MainPanel()
             else:
                 self.login_result_info.set_text(('error_info', '登录失败'))
+                asyncio.get_event_loop().create_task(session.close())
