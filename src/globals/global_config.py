@@ -19,7 +19,7 @@ def get_local_info():
             json_info = pickle.loads(json_bytes)
     else:
         json_info = {}
-        with open(local_path, "wb", encoding="utf-8") as f:
+        with open(local_path, "wb") as f:
             f.write(pickle.dumps(json_info))
     return json_info
 
