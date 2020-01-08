@@ -475,4 +475,4 @@ $RECYCLE.BIN/
 
 # 本地配置 #
 
-src/globals/local.json
+src/globals/local

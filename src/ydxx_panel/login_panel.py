@@ -25,27 +25,39 @@ class LoginPanel(urwid.WidgetPlaceholder):
 
         def on_login(button):
             username = self.username_edit.get_edit_text()
-            set_local_info("username", username)
             pwd = self.pwd_edit.get_edit_text()
             asyncio.get_event_loop().create_task(self.login(username, pwd))
+
+        def exit_button(button):
+            """
+            退出按钮
+            """
+            raise urwid.ExitMainLoop()
 
         super(LoginPanel, self).__init__(urwid.SolidFill(' '))
         # 设置登录页面的logo
         logo = urwid.Text('')
-#        with open('./logo.txt') as logo_file:
-#            logo.set_text(logo_file.read())
+        #        with open('./logo.txt') as logo_file:
+        #            logo.set_text(logo_file.read())
         self.username_edit = urwid.Edit('账号: ')
         if global_config.username:
             self.username_edit.set_edit_text(global_config.username)
         self.pwd_edit = urwid.Edit('密码: ', mask='*')
+        if global_config.password:
+            self.pwd_edit.set_edit_text(global_config.password)
         login_btn = button.Button('[登陆]', on_press=on_login)
+        exit_btn = button.Button('[退出]', on_press=exit_button)
         login_btn_wp = urwid.Padding(login_btn, align=urwid.CENTER, width='pack')
+        exit_btn_wp = urwid.Padding(exit_btn, align=urwid.CENTER, width='pack')
         self.login_result_info = urwid.Text('', align=urwid.CENTER)
         form = urwid.LineBox(
             urwid.Pile(
                 [
-                    self.username_edit, self.pwd_edit,
-                    self.login_result_info, login_btn_wp
+                    self.username_edit,
+                    self.pwd_edit,
+                    self.login_result_info,
+                    login_btn_wp,
+                    exit_btn_wp
                 ],
                 focus_item=0
             )
@@ -62,12 +74,14 @@ class LoginPanel(urwid.WidgetPlaceholder):
         """
         登录
         """
+        set_local_info("username", username)
         session = aiohttp.ClientSession()
         async with session.post(
                 api.login, data={'user_name': username, 'user_pwd': pwd}
         ) as response:
             json_rst = await response.json()
             if 'code' in json_rst and json_rst['code'] == 200:
+                set_local_info("password", pwd)
                 user_data = json_rst['data']
                 global_values.token = user_data['token']
                 global_values.uid = user_data['_id']
