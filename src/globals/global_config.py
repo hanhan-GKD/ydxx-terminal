@@ -42,6 +42,4 @@ global_config.hostname = 'http://joucks.cn:3344'
 global_config.ws_server = ['http://joucks.cn:3356', 'http://joucks.cn:3358']
 
 
-local_info = get_local_info()
-global_config.username = local_info.get("username", "")
-global_config.password = local_info.get("password", "")
+global_config.local = get_local_info()

@@ -40,11 +40,15 @@ class LoginPanel(urwid.WidgetPlaceholder):
         #        with open('./logo.txt') as logo_file:
         #            logo.set_text(logo_file.read())
         self.username_edit = urwid.Edit('账号: ')
-        if global_config.username:
-            self.username_edit.set_edit_text(global_config.username)
+        if global_config.local.get('username'):
+            self.username_edit.set_edit_text(
+                global_config.local.get('username')
+            )
         self.pwd_edit = urwid.Edit('密码: ', mask='*')
-        if global_config.password:
-            self.pwd_edit.set_edit_text(global_config.password)
+        if global_config.local.get('password'):
+            self.pwd_edit.set_edit_text(
+                global_config.local.get('password')
+            )
         login_btn = button.Button('[登陆]', on_press=on_login)
         exit_btn = button.Button('[退出]', on_press=exit_button)
         login_btn_wp = urwid.Padding(login_btn, align=urwid.CENTER, width='pack')
