@@ -5,6 +5,7 @@
 """
 import urwid
 
+from src.ydxx_panel.settings_panel import SettingsPanel
 from src.ydxx_panel.team_adventure_panel import TeamAdventurePanel
 from src.ydxx_panel.userinfo_panel import UserInfoPanel
 from src.ydxx_widget.menu import MenuWidget
@@ -17,6 +18,7 @@ class MainPanel(urwid.Frame):
             [
                 ('角色信息', UserInfoPanel()),
                 ('组队冒险', TeamAdventurePanel()),
+                ('系统设置', SettingsPanel()),
             ]
         )
 

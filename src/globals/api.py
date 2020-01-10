@@ -11,5 +11,6 @@ def gen_api(uri: str) -> str:
 api = GlobalContainer()
 
 api.login = gen_api('/api/login')
+api.logout = gen_api('/api/loginOut')
 api.user_init_info = gen_api('/api/getUserInitInfo')
 api.scene_list = gen_api('/api/getCombatBeMonster')
