@@ -2,9 +2,13 @@
 # -*- coding: utf-8 -*-
 import os
 import pickle
+import sys
 
 from src.globals.globals import GlobalContainer
 
+
+#关闭stderr
+sys.stderr = open('/dev/null')
 
 local_path = os.path.join(os.getcwd(), "src/globals/local")
 
@@ -43,3 +47,4 @@ global_config.ws_server = ['http://joucks.cn:3356', 'http://joucks.cn:3358']
 
 
 global_config.local = get_local_info()
+global_config.logo_path = os.path.join(os.getcwd(), 'logo.txt')

@@ -37,8 +37,8 @@ class LoginPanel(urwid.WidgetPlaceholder):
         super(LoginPanel, self).__init__(urwid.SolidFill(' '))
         # 设置登录页面的logo
         logo = urwid.Text('')
-        #        with open('./logo.txt') as logo_file:
-        #            logo.set_text(logo_file.read())
+        with open(global_config.logo_path) as logo_file:
+            logo.set_text(logo_file.read())
         self.username_edit = urwid.Edit('账号: ')
         if global_config.local.get('username'):
             self.username_edit.set_edit_text(
@@ -51,8 +51,8 @@ class LoginPanel(urwid.WidgetPlaceholder):
             )
         login_btn = button.Button('[登陆]', on_press=on_login)
         exit_btn = button.Button('[退出]', on_press=exit_button)
-        login_btn_wp = urwid.Padding(login_btn, align=urwid.CENTER, width='pack')
-        exit_btn_wp = urwid.Padding(exit_btn, align=urwid.CENTER, width='pack')
+        login_btn_wp = urwid.Padding(login_btn, align=urwid.LEFT, width='pack', left=12)
+        exit_btn_wp = urwid.Padding(exit_btn, align=urwid.RIGHT, width='pack', right=12)
         self.login_result_info = urwid.Text('', align=urwid.CENTER)
         form = urwid.LineBox(
             urwid.Pile(
@@ -60,8 +60,10 @@ class LoginPanel(urwid.WidgetPlaceholder):
                     self.username_edit,
                     self.pwd_edit,
                     self.login_result_info,
-                    login_btn_wp,
-                    exit_btn_wp
+                    urwid.Columns([
+                        login_btn_wp,
+                        exit_btn_wp
+                    ])
                 ],
                 focus_item=0
             )

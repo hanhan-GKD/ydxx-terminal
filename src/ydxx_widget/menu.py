@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.6
 # -*- coding: utf-8 -*-
 import urwid
+from src.ydxx_widget.button import Button
 
 
 class MenuListBox(urwid.ListBox):
@@ -22,9 +23,6 @@ class MenuEmptyError(Exception):
 
 
 class MenuWidget(urwid.Columns):
-    """
-    """
-
     def __init__(self, menu_list: [(str, urwid.Widget)]):
         if len(menu_list) < 1:
             raise MenuEmptyError()
@@ -32,7 +30,7 @@ class MenuWidget(urwid.Columns):
         self.menu_items = []
         self.position = 0
         for (title, body) in menu_list:
-            self.menu_items.append(urwid.AttrMap(urwid.SelectableIcon(title), None, 'active_menu_item'))
+            self.menu_items.append(Button(title, highlight='active_menu_item'))
             self.body_list.append(body)
         self.menu = MenuListBox(urwid.SimpleFocusListWalker(self.menu_items))
         urwid.connect_signal(self.menu, 'change_focus', lambda x, position: self.switch_menu_item(position))
