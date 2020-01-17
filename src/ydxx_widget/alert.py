@@ -24,10 +24,12 @@ def alert(widget, header:str = '', callback: Callable[[int], bool] = None, style
         if not callback or callback and callback(click):
             global_values.top.original_widget = global_values.top.original_widget[0]
     top = global_values.top
-    if hasattr(top, 'attr_map'):
-        attr_map = top.attr_map
-        if attr_map.get('is_alert'):
-            top.original_widget = global_values.top.original_widget[0]
+    if isinstance(top.original_widget, urwid.Overlay):
+        top_w = top.original_widget.top_w
+        if hasattr(top_w, 'attr_map'):
+            attr_map = top_w.attr_map
+            if attr_map.get('is_alert'):
+                top.original_widget = global_values.top.original_widget[0]
 
     if style == Alert.YES_NO:
         btns = [urwid.Padding(Button('确认', on_press=_on_click, user_data=Alert.YES), width='pack', left=10),
