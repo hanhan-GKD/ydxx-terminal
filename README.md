@@ -13,9 +13,9 @@ cd yundingxx-terminal
 # 温馨提示 python >= 3.6 为最佳
 
 # 如果没有 python3 环境请自行安装
-centos7 及以上:yum install python36
+centos7 及以上:yum install python3
 centos6系列的版本也许可能大概会出现无法直接安装 python3 的问题,请自行源码安装.步骤复杂在此不多赘述,请自行百度。
-ubuntu:apt-get install python3.6
+ubuntu:apt-get install python3
 
 # 环境安装（建议虚拟环境安装）
 pip3 install -r requirements.txt
